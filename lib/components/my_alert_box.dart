@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyAlertBox extends StatelessWidget {
-  final controller;
+  final TextEditingController controller;
   final String hintText;
   final VoidCallback onSave;
   final VoidCallback onCancel;
@@ -16,36 +16,33 @@ class MyAlertBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AlertDialog(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: theme.colorScheme.background,
       content: TextField(
         controller: controller,
-        style: const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+        style: TextStyle(color: theme.colorScheme.onBackground),
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[600]),
-          enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white)),
-          focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white)),
+          hintStyle: TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.6)),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: theme.colorScheme.onBackground),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: theme.colorScheme.onBackground),
+          ),
         ),
       ),
       actions: [
         MaterialButton(
-          onPressed: onSave,
-          child: Text(
-            "Save",
-            style: TextStyle(color: Colors.white),
-          ),
-          color: Colors.black,
+          onPressed: onCancel,
+          color: theme.colorScheme.primary,
+          child: Text("Cancel", style: TextStyle(color: theme.colorScheme.onBackground)),
         ),
         MaterialButton(
-          onPressed: onCancel,
-          child: Text(
-            "Cancel",
-            style: TextStyle(color: Colors.white),
-          ),
-          color: Colors.black,
+          onPressed: onSave,
+          color: theme.colorScheme.secondary,
+          child: Text("Save", style: TextStyle(color: theme.colorScheme.onBackground)),
         ),
       ],
     );

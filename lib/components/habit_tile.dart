@@ -19,6 +19,7 @@ class HabitTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Slidable(
@@ -28,24 +29,24 @@ class HabitTile extends StatelessWidget {
             // settings option
             SlidableAction(
               onPressed: settingsTapped,
-              backgroundColor: Colors.grey.shade800,
-              icon: Icons.settings,
+              backgroundColor: theme.colorScheme.secondary,
+              icon: Icons.drive_file_rename_outline_outlined,
               borderRadius: BorderRadius.circular(12),
             ),
 
             // delete option
             SlidableAction(
               onPressed: deleteTapped,
-              backgroundColor: Colors.red.shade400,
+              backgroundColor: Colors.red,
               icon: Icons.delete,
               borderRadius: BorderRadius.circular(12),
             ),
           ],
         ),
         child: Container(
-          padding: EdgeInsets.all(24),
+          padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -57,7 +58,10 @@ class HabitTile extends StatelessWidget {
               ),
 
               // habit name
-              Text(habitName),
+              Text(
+                habitName,
+                style: TextStyle(color: theme.colorScheme.onSurface),
+              ),
             ],
           ),
         ),

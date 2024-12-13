@@ -1,4 +1,4 @@
-import 'package:habittrackertute/datetime/date_time.dart';
+import 'package:habittracker/components/date_time.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 // reference our box
@@ -39,7 +39,6 @@ class HabitDatabase {
     // update todays entry
     _myBox.put(todaysDateFormatted(), todaysHabitList);
 
-    // update universal habit list in case it changed (new habit, edit habit, delete habit)
     _myBox.put("CURRENT_HABIT_LIST", todaysHabitList);
 
     // calculate habit complete percentages for each day
@@ -61,19 +60,16 @@ class HabitDatabase {
         ? '0.0'
         : (countCompleted / todaysHabitList.length).toStringAsFixed(1);
 
-    // key: "PERCENTAGE_SUMMARY_yyyymmdd"
-    // value: string of 1dp number between 0.0-1.0 inclusive
+   
     _myBox.put("PERCENTAGE_SUMMARY_${todaysDateFormatted()}", percent);
   }
 
   void loadHeatMap() {
     DateTime startDate = createDateTimeObject(_myBox.get("START_DATE"));
 
-    // count the number of days to load
     int daysInBetween = DateTime.now().difference(startDate).inDays;
 
-    // go from start date to today and add each percentage to the dataset
-    // "PERCENTAGE_SUMMARY_yyyymmdd" will be the key in the database
+    
     for (int i = 0; i < daysInBetween + 1; i++) {
       String yyyymmdd = convertDateTimeToString(
         startDate.add(Duration(days: i)),
@@ -83,7 +79,6 @@ class HabitDatabase {
         _myBox.get("PERCENTAGE_SUMMARY_$yyyymmdd") ?? "0.0",
       );
 
-      // split the datetime up like below so it doesn't worry about hours/mins/secs etc.
 
       // year
       int year = startDate.add(Duration(days: i)).year;
@@ -99,7 +94,6 @@ class HabitDatabase {
       };
 
       heatMapDataSet.addEntries(percentForEachDay.entries);
-      print(heatMapDataSet);
     }
   }
 }
